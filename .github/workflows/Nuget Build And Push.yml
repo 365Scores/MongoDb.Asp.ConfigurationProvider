@@ -1,0 +1,45 @@
+name: MongoDb.Asp.ConfigurationProvider - Build & Publish Nuget
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump_type:
+        description: 'Version bump type ( MAJOR / MINOR / PATCH / NONE ) For Feature Branch - leave empty'
+        default: "NONE"
+      isPreRelease:
+        description: 'Pre-Release?'
+        required: true
+        type: boolean
+
+jobs:
+  
+  log_inputs:
+    runs-on: ubuntu-latest
+    steps:
+    - name: log inputs
+      run: |
+        echo "-------------- inputs --------------"
+        echo bump_type: ${{ github.event.inputs.bump_type }}
+        echo isPreRelease: ${{ github.event.inputs.isPreRelease }}
+        echo ""
+        echo "-------------- other variables --------------"
+        echo git ref: $GITHUB_REF
+        echo git ref name: $GITHUB_REF_NAME
+        echo git commit hash: $GITHUB_SHA
+
+  run-main-workflow:
+    name: Run Main Branch Workflow
+    if: ${{ github.event.inputs.isPreRelease == 'false' }}
+    uses: 365scores/workflows/.github/workflows/any_project_build_and_publish.yml@v1.0.61
+    with:
+      project_path: ./MongoDb.Asp.ConfigurationProvider/MongoDb.Asp.ConfigurationProvider.csproj
+      bump_type: ${{ github.event.inputs.bump_type }}
+    secrets: inherit
+
+  run-other-workflow:
+    name: Run Feature Branch Workflow
+    if: ${{ github.event.inputs.isPreRelease == 'true' }}
+    uses: 365scores/workflows/.github/workflows/FB_Push_Nuget_any_project.yml@v1.0.41
+    with:
+      project_path: ./MongoDb.Asp.ConfigurationProvider/MongoDb.Asp.ConfigurationProvider.csproj
+    secrets: inherit
