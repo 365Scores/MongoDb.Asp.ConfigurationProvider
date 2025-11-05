@@ -30,7 +30,7 @@ jobs:
   run-main-workflow:
     name: Run Main Branch Workflow
     if: ${{ github.event.inputs.isPreRelease == 'false' }}
-    uses: 365scores/workflows/.github/workflows/any_project_build_and_publish.yml@v1.0.61
+    uses: 365scores/workflows/.github/workflows/any_project_build_and_publish.yml@v1.0.44
     with:
       project_path: ./MongoDb.Asp.ConfigurationProvider/MongoDb.Asp.ConfigurationProvider.csproj
       bump_type: ${{ github.event.inputs.bump_type }}
