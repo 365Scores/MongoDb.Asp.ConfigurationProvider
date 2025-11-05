@@ -39,7 +39,7 @@ jobs:
   run-other-workflow:
     name: Run Feature Branch Workflow
     if: ${{ github.event.inputs.isPreRelease == 'true' }}
-    uses: 365scores/workflows/.github/workflows/FB_Push_Nuget_any_project.yml@v1.0.41
+    uses: 365scores/workflows/.github/workflows/FB_Push_Nuget_any_project.yml@v1.0.44
     with:
       project_path: ./MongoDb.Asp.ConfigurationProvider/MongoDb.Asp.ConfigurationProvider.csproj
     secrets: inherit
